@@ -75,7 +75,10 @@ function updateMessage() {
     messageEl.textContent = `It's ${playerName}'s turn!`
   } else if (winner === false && tie === true){
     messageEl.textContent = `You've tied, try again!`
-  } else messageEl.textContent = `Congrats player ${playerName}, you won!`
+  } else {messageEl.classList = "animate__animated animate__tada"
+    messageEl.textContent = `Congrats player ${playerName}, you won!`
+    confetti.start(2000)
+  }
 }
 
 // function handleClick(evt) {
