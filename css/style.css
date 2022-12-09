@@ -14,6 +14,7 @@ section.board {
   grid-template-rows: repeat(3, 10vmin);
   grid-template-columns: repeat(3, 10vmin);
   grid-gap: 0vmin;
+  margin: 0 auto;
 }
 
 div {
@@ -21,4 +22,19 @@ div {
   font-size: 8vmin;
   text-align: center;
   vertical-align: middle;
+}
+
+h1 {
+text-align: center;
+}
+
+h2 {
+text-align: center;
+}
+
+button {
+  width: 20%;
+  margin: 20px 0px;
+  padding: 5px;
+  margin: 20px auto;
 }
