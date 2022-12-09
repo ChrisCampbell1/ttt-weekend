@@ -1,5 +1,15 @@
 /*-------------------------------- Constants --------------------------------*/
-
+//todo needs to be revisited
+const winningCombos = [
+  [1, 1, 1, null, null, null, null, null, null],
+  [null, null, null, 1, 1, 1, null, null, null],
+  [null, null, null, null, null, null, 1, 1, 1],
+  [1, null, null, 1, null, null, 1, null, null],
+  [null, 1, null, null, 1, null, null, 1, null],
+  [null, null, 1, null, null, 1, null, null, 1],
+  [1, null, null, null, 1, null, null, null, 1],
+  [null, null, 1, null, 1, null, 1, null, null],
+]
 
 
 /*---------------------------- Variables (state) ----------------------------*/
@@ -8,14 +18,14 @@ let board, turn, winner, tie
 
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll(".sqr")
-
 const messageEl = document.querySelector("#message")
+const boardEl = document.querySelector(".board")
 
 
 
 
 /*----------------------------- Event Listeners -----------------------------*/
-
+boardEl.addEventListener("click", handleClick)
 
 
 
@@ -61,6 +71,14 @@ function updateMessage() {
   } else messageEl.textContent = `Congrats player ${turn}, you won!`
 }
 
+function handleClick(evt) {
+  let sqIdx = evt.target.id.slice(-1)
+  if(board[sqIdx] !== null){
+    return
+  } else if (winner !== null){
+    return
+  } else board[sqIdx] = turn
+}
 
 
 
@@ -120,7 +138,7 @@ function updateMessage() {
   //// 3g) Call a function called `render` at the end of the `init` function.
 
 
-// Step 4 - The state of the game should be rendered to the user
+//// Step 4 - The state of the game should be rendered to the user
 
   //// 4a) Create a function called `render`, then set it aside for now.
 
@@ -147,7 +165,7 @@ function updateMessage() {
   //// 4f) Invoke both the `updateBoard` and the `updateMessage` functions
   ////     inside of your `render` function.
 
-// Step 5 - Define the required constants
+// todo Step 5 - Define the required constants check the formating of the arrays
 
   // 5a) In a constant called `winningCombos` define the eight possible winning 
   //     combinations as an array of arrays.
@@ -155,22 +173,22 @@ function updateMessage() {
 
 // Step 6 - Handle a player clicking a square with a `handleClick` function
 
-  // 6a) Create a function called `handleClick`. It will have an `evt`
-  //     parameter.
+  //// 6a) Create a function called `handleClick`. It will have an `evt`
+  ////     parameter.
 
-  // 6b) Attach an event listener to the game board (you can do this to each
-  //     one of the existing `squareEls` with a `forEach` loop OR add a new
-  //     cached element reference that will allow you to take advantage of 
-  //     event bubbling). On the `'click'` event, it should call the 
-  //    `handleClick` function you created in 6a.
+  //// 6b) Attach an event listener to the game board (you can do this to each
+  ////     one of the existing `squareEls` with a `forEach` loop OR add a new
+  ////     cached element reference that will allow you to take advantage of 
+  ////     event bubbling). On the `'click'` event, it should call the 
+  ////    `handleClick` function you created in 6a.
 
-  // 6c) Obtain the index of the square that was clicked by "extracting" the 
-  //     index from an `id` assigned to the target element in the HTML. Assign 
-  //     this to a constant called `sqIdx`.
+  //// 6c) Obtain the index of the square that was clicked by "extracting" the 
+  ////     index from an `id` assigned to the target element in the HTML. Assign 
+  ////     this to a constant called `sqIdx`.
 
-  // 6d) If the `board` has a value at the `sqIdx`, immediately `return`  
-  //     because that square is already taken. Also, if `winner` is not `null`
-  //     immediately `return` because the game is over.
+  //// 6d) If the `board` has a value at the `sqIdx`, immediately `return`  
+  ////     because that square is already taken. Also, if `winner` is not `null`
+  ////     immediately `return` because the game is over.
 
 
 // Step 6.1 - `placePiece`
