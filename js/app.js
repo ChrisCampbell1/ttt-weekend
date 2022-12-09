@@ -1,5 +1,4 @@
 /*-------------------------------- Constants --------------------------------*/
-//todo needs to be revisited
 const winningCombos = [
   [1, 1, 1, null, null, null, null, null, null],
   [null, null, null, 1, 1, 1, null, null, null],
@@ -14,7 +13,7 @@ const winningCombos = [
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let board, turn, winner, tie
+let board, turn, winner, tie, confettiHappened
 
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll(".sqr")
@@ -41,6 +40,7 @@ function init() {
   turn = 1
   winner = false
   tie = false
+  confettiHappened = false
   render()
 }
 
@@ -65,6 +65,9 @@ function updateBoard(arr) {
 }
 
 function updateMessage() {
+  if (confettiHappened === true){
+    return
+  }
   let playerName = ""
   if (turn === 1){
     playerName = "X"
@@ -75,9 +78,10 @@ function updateMessage() {
     messageEl.textContent = `It's ${playerName}'s turn!`
   } else if (winner === false && tie === true){
     messageEl.textContent = `You've tied, try again!`
-  } else {messageEl.classList = "animate__animated animate__tada"
+  } else if (winner === true){messageEl.classList = "animate__animated animate__tada"
     messageEl.textContent = `Congrats player ${playerName}, you won!`
-    confetti.start(2000)
+    confetti.start(1000)
+    confettiHappened = true
   }
 }
 
@@ -99,6 +103,7 @@ function handleClick(evt) {
   checkForWinner(board)
   switchPlayerTurn()
   render()
+  clearBoardClasses()
 }
 
 function placePiece(idx) {
@@ -157,9 +162,12 @@ function resetShake() {
   boardEl.classList.remove("animate__animated", "animate__headShake")
 }
 
-setTimeout(() => {
-  boardEl.classList.remove("animate__animated", "animate__headShake")
-}, 1000);
+function clearBoardClasses() {
+  console.log("clearboardclasses ran")
+  setTimeout(() => {
+    resetShake()
+  }, 250);
+}
 
 /*------------------------ Minimum Requirements -----------------------------*/
 
