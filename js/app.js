@@ -32,13 +32,13 @@ function init() {
   turn = 1
   winner = false
   tie = false
-  //render()
+  render()
 }
 
-// function render() {
-//   updateBoard()
-//   updateMessage
-// }
+function render() {
+  updateBoard()
+  updateMessage
+}
 
 function updateBoard(arr) {
   for (let i = 0; i < arr.length; i++){
@@ -52,11 +52,14 @@ function updateBoard(arr) {
   }
 }
 
-
-// function updateMessage() {
-
-// }
-
+//todo check if you can use the template literal for turn to call out X or O or if you need an if statement 
+function updateMessage() {
+  if (winner === false && tie === false){
+    messageEl.textContent = `It's ${turn}'s turn!`
+  } else if (winner === false && tie === true){
+    messageEl.textContent = `You've tied, try again!`
+  } else messageEl.textContent = `Congrats player ${turn}, you won!`
+}
 
 
 
@@ -133,16 +136,16 @@ function updateBoard(arr) {
 
   //// 4d) Create a function called `updateMessage`
   
-  // 4e) In the `updateMessage` function, render a message based on the 
-  //     current game state:
-  //     - If both `winner` and `tie` have a value of false (meaning the game 
-  //       is still in progress), render whose turn it is.
-  //     - If `winner` is false, but `tie` is true, render a tie message.
-  //     - Otherwise, render a congratulatory message to the player that has 
-  //       won.
+  //// 4e) In the `updateMessage` function, render a message based on the 
+  // //    current game state:
+  //   //  - If both `winner` and `tie` have a value of false (meaning the game 
+  //     //  is still in progress), render whose turn it is.
+  ////     - If `winner` is false, but `tie` is true, render a tie message.
+  ////     - Otherwise, render a congratulatory message to the player that has 
+  ////       won.
 
   //// 4f) Invoke both the `updateBoard` and the `updateMessage` functions
-  //     inside of your `render` function.
+  ////     inside of your `render` function.
 
 // Step 5 - Define the required constants
 
