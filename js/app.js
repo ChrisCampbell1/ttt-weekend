@@ -20,13 +20,13 @@ let board, turn, winner, tie
 const squareEls = document.querySelectorAll(".sqr")
 const messageEl = document.querySelector("#message")
 const boardEl = document.querySelector(".board")
-
+const resetBtnEl = document.querySelector("#reset")
 
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 boardEl.addEventListener("click", handleClick)
-
+resetBtnEl.addEventListener("click", init)
 
 
 
@@ -34,7 +34,6 @@ boardEl.addEventListener("click", handleClick)
 /*-------------------------------- Functions --------------------------------*/
 
 init()
-console.log(board, turn, winner, tie)
 
 function init() {
 
@@ -46,14 +45,15 @@ function init() {
 }
 
 function render() {
-  updateBoard()
-  updateMessage
+  console.log("render ran")
+  updateBoard(board)
+  updateMessage()
 }
 
 function updateBoard(arr) {
   for (let i = 0; i < arr.length; i++){
     if(arr[i] === null){
-
+      squareEls[i].textContent = ""
     } else if (arr[i] === 1){
       squareEls[i].textContent = "X"
     } else if (arr[i] === -1){
@@ -62,28 +62,83 @@ function updateBoard(arr) {
   }
 }
 
-//todo check if you can use the template literal for turn to call out X or O or if you need an if statement 
 function updateMessage() {
+  let playerName = ""
+  if (turn === 1){
+    playerName = "X"
+  } else if (turn === -1){
+    playerName = "O"
+  }
   if (winner === false && tie === false){
-    messageEl.textContent = `It's ${turn}'s turn!`
+    messageEl.textContent = `It's ${playerName}'s turn!`
   } else if (winner === false && tie === true){
     messageEl.textContent = `You've tied, try again!`
-  } else messageEl.textContent = `Congrats player ${turn}, you won!`
+  } else messageEl.textContent = `Congrats player ${playerName}, you won!`
 }
+
+// function handleClick(evt) {
+//   let sqIdx = evt.target.id.slice(-1)
+//   if(board[sqIdx] !== null){
+//     return
+//   } else if (winner !== null){
+//     return
+//   } else board[sqIdx] = turn
+// }
 
 function handleClick(evt) {
   let sqIdx = evt.target.id.slice(-1)
-  if(board[sqIdx] !== null){
-    return
-  } else if (winner !== null){
-    return
-  } else board[sqIdx] = turn
+  console.log("click")
+  placePiece(sqIdx)
+  checkForTie(board)
+  checkForWinner(board)
+  switchPlayerTurn()
+  render()
 }
 
+function placePiece(idx) {
+  if(board[idx] !== null || winner === true){
+    console.log("you can't click here")
+    return
+  } board[idx] = turn
+}
 
+function checkForTie(arr) {
+  let counter = 0
+  for(let i = 0; i < arr.length; i++){
+    if(arr[i] !== null){
+      counter++
+    }
+  } if (counter === 9){
+    tie = true
+  } console.log("counter is", counter)
+}
 
+function switchPlayerTurn() {
+  if (winner === true){
+    return
+  }
+  turn = turn * -1
+}
 
-
+function checkForWinner(arr) {
+  if (Math.abs((arr[0] + arr[1] + arr[2])) === 3){
+    winner = true
+  } if (Math.abs((arr[3] + arr[4] + arr[5])) === 3){
+    winner = true
+  } if (Math.abs((arr[6] + arr[7] + arr[8])) === 3){
+    winner = true
+  } if (Math.abs((arr[0] + arr[3] + arr[6])) === 3){
+    winner = true
+  } if (Math.abs((arr[1] + arr[4] + arr[7])) === 3){
+    winner = true
+  } if (Math.abs((arr[2] + arr[5] + arr[8])) === 3){
+    winner = true
+  } if (Math.abs((arr[0] + arr[4] + arr[8])) === 3){
+    winner = true
+  } if (Math.abs((arr[2] + arr[4] + arr[6])) === 3){
+    winner = true
+  }
+}
 
 
 /*------------------------ Minimum Requirements -----------------------------*/
@@ -165,13 +220,13 @@ function handleClick(evt) {
   //// 4f) Invoke both the `updateBoard` and the `updateMessage` functions
   ////     inside of your `render` function.
 
-// todo Step 5 - Define the required constants check the formating of the arrays
+////  Step 5 - Define the required constants check the formating of the arrays
 
-  // 5a) In a constant called `winningCombos` define the eight possible winning 
-  //     combinations as an array of arrays.
+  //// 5a) In a constant called `winningCombos` define the eight possible winning 
+  ////     combinations as an array of arrays.
 
 
-// Step 6 - Handle a player clicking a square with a `handleClick` function
+//// Step 6 - Handle a player clicking a square with a `handleClick` function
 
   //// 6a) Create a function called `handleClick`. It will have an `evt`
   ////     parameter.
@@ -191,75 +246,75 @@ function handleClick(evt) {
   ////     immediately `return` because the game is over.
 
 
-// Step 6.1 - `placePiece`
+//// Step 6.1 - `placePiece`
 
-  // 6.1a) Create a function named placePiece that accepts an `idx` parameter.
+  ///// 6.1a) Create a function named placePiece that accepts an `idx` parameter.
 
-  // 6.1b) Update the `board` array at the `idx` so that it is equal to the 
-  //       current value of `turn`.
-
-
-// 6.2 - `checkForTie`
-
-  // 6.2a) Create a function named `checkForTie`.
-
-  // 6.2b) Check if the `board` array still contains any `null` elements. If
-  //       it does, we can leave `tie` as false. Otherwise, set `tie` to true.
+  //// 6.1b) Update the `board` array at the `idx` so that it is equal to the 
+  ////       current value of `turn`.
 
 
-// 6.3 - `checkForWinner`
+//// 6.2 - `checkForTie`
 
-  // 6.3a) Create a function called `checkForWinner`
+  //// 6.2a) Create a function named `checkForTie`.
 
-  // 6.3b) Determine if a player has won using one of the two options below.
-  //       Option 1 is a more elegant method that takes advantage of the 
-  //       `winningCombos` array you wrote above in step 5. Option 2 might 
-  //       be a little simpler to comprehend, but you'll need to write more 
-  //       code. This option won't take advantage of the winningCombos array, 
-  //       but using it as a reference will help you build a solution.
-  //       Ensure you choose only one path.
-
-  //       Option 1) Loop through each of the winning combination arrays 
-  //       defined in the `winningCombos` array. Total up the three board 
-  //       positions using the three indexes in the current combo. Convert 
-  //       the total to an absolute value (convert any negative total to 
-  //       positive). If the total equals 3, we have a winner, and can set 
-  //       `winner` to true.
-
-  //       Option 2) For each one of the winning combinations you wrote in 
-  //       step 5, find the total of each winning combination. Convert the 
-  //       total to an absolute value (convert any negative total to 
-  //       positive). If the total equals 3, we have a winner, and can set 
-  //       `winner` to true.
+  //// 6.2b) Check if the `board` array still contains any `null` elements. If
+  ////       it does, we can leave `tie` as false. Otherwise, set `tie` to true.
 
 
-// 6.4 - `switchPlayerTurn`
+//// 6.3 - `checkForWinner`
 
-  // 6.4a) Create a function called `switchPlayerTurn`.
+  //// 6.3a) Create a function called `checkForWinner`
 
-  // 6.4b) If `winner` is true, return out of the function - we don’t need 
-  //       to switch the turn anymore!
+  //// 6.3b) Determine if a player has won using one of the two options below.
+  ////       Option 1 is a more elegant method that takes advantage of the 
+  // //      `winningCombos` array you wrote above in step 5. Option 2 might 
+  ////       be a little simpler to comprehend, but you'll need to write more 
+  ////       code. This option won't take advantage of the winningCombos array, 
+  ////       but using it as a reference will help you build a solution.
+  ////       Ensure you choose only one path.
 
-  // 6.4c) If `winner` is false, change the turn by multiplying `turn` by 
-  //       `-1` (this flips a `1` to `-1`, and vice-versa).
+  ////       Option 1) Loop through each of the winning combination arrays 
+  ////       defined in the `winningCombos` array. Total up the three board 
+  ////       positions using the three indexes in the current combo. Convert 
+  ////       the total to an absolute value (convert any negative total to 
+  ////       positive). If the total equals 3, we have a winner, and can set 
+  ////       `winner` to true.
+
+  ////       Option 2) For each one of the winning combinations you wrote in 
+  ////       step 5, find the total of each winning combination. Convert the 
+  ////       total to an absolute value (convert any negative total to 
+  ////       positive). If the total equals 3, we have a winner, and can set 
+  ////       `winner` to true.
 
 
-// 6.5 - Tying it all together
+//// 6.4 - `switchPlayerTurn`
 
-  // 6.5a) In our `handleClick` function, call `placePiece`, `checkForTie`, 
-  //       `checkForWinner`, and `switchPlayerTurn`. Don’t forget that 
-  //       `placePiece` needs `sqIdx` as an argument! 
+  //// 6.4a) Create a function called `switchPlayerTurn`.
 
-  // 6.5b) Finally, now that all the state has been updated we need to 
-  //       render that updated state to the user by calling the `render` 
-  //       function that we wrote earlier.
+  //// 6.4b) If `winner` is true, return out of the function - we don’t need 
+  ////       to switch the turn anymore!
 
-// Step 7 - Create Reset functionality
+  //// 6.4c) If `winner` is false, change the turn by multiplying `turn` by 
+  ////       `-1` (this flips a `1` to `-1`, and vice-versa).
 
-  // 7a) Add a reset button to the HTML document.
 
-  // 7b) Store the new reset button element as a cached element reference in
-  //     a constant named `resetBtnEl`.
+//// 6.5 - Tying it all together
 
-  // 7c) Attach an event listener to the `resetBtnEl`. On the `'click'` event 
-  //     it should call the `init` function you created in step 3.
+  //// 6.5a) In our `handleClick` function, call `placePiece`, `checkForTie`, 
+  ////       `checkForWinner`, and `switchPlayerTurn`. Don’t forget that 
+  ////       `placePiece` needs `sqIdx` as an argument! 
+
+  //// 6.5b) Finally, now that all the state has been updated we need to 
+  ////       render that updated state to the user by calling the `render` 
+  ////       function that we wrote earlier.
+
+//// Step 7 - Create Reset functionality
+
+  //// 7a) Add a reset button to the HTML document.
+
+  //// 7b) Store the new reset button element as a cached element reference in
+  ////     a constant named `resetBtnEl`.
+
+  //// 7c) Attach an event listener to the `resetBtnEl`. On the `'click'` event 
+  ////     it should call the `init` function you created in step 3.
