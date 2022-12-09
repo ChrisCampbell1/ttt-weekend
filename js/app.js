@@ -98,6 +98,7 @@ function handleClick(evt) {
 function placePiece(idx) {
   if(board[idx] !== null || winner === true){
     console.log("you can't click here")
+    switchPlayerTurn()
     return
   } board[idx] = turn
 }
@@ -113,7 +114,7 @@ function checkForTie(arr) {
   } console.log("counter is", counter)
 }
 
-function switchPlayerTurn() {
+function switchPlayerTurn(idx) {
   if (winner === true){
     return
   }
