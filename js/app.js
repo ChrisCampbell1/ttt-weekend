@@ -56,8 +56,10 @@ function updateBoard(arr) {
       squareEls[i].textContent = ""
     } else if (arr[i] === 1){
       squareEls[i].textContent = "X"
+      squareEls[i].classList = "blue"
     } else if (arr[i] === -1){
       squareEls[i].textContent = "O"
+      squareEls[i].classList = "green"
     }
   }
 }
