@@ -93,6 +93,7 @@ function updateMessage() {
 function handleClick(evt) {
   let sqIdx = evt.target.id.slice(-1)
   console.log("click")
+  shakeBoard()
   placePiece(sqIdx)
   checkForTie(board)
   checkForWinner(board)
@@ -146,6 +147,19 @@ function checkForWinner(arr) {
   }
 }
 
+function shakeBoard() {
+  if (tie === true || winner === true) {
+    boardEl.classList.add("animate__animated", "animate__headShake")
+  }
+}
+
+function resetShake() {
+  boardEl.classList.remove("animate__animated", "animate__headShake")
+}
+
+setTimeout(() => {
+  boardEl.classList.remove("animate__animated", "animate__headShake")
+}, 1000);
 
 /*------------------------ Minimum Requirements -----------------------------*/
 
