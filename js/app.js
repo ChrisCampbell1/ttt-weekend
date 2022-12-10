@@ -13,19 +13,28 @@ const winningCombos = [
 
 /*---------------------------- Variables (state) ----------------------------*/
 
-let board, turn, winner, tie, confettiHappened
+let board, turn, winner, tie, confettiHappened, gameInProgress
+let scoreBoard = {
+  xWins: 0,
+  oWins: 0,
+  ties: 0
+}
 
 /*------------------------ Cached Element References ------------------------*/
 const squareEls = document.querySelectorAll(".sqr")
 const messageEl = document.querySelector("#message")
 const boardEl = document.querySelector(".board")
 const resetBtnEl = document.querySelector("#reset")
-
+const xScore = document.getElementById("x")
+const oScore = document.getElementById("o")
+const tiesScore = document.getElementById("ties")
+const resetScoreBoardBtn = document.getElementById("resetscoreboard")
 
 
 /*----------------------------- Event Listeners -----------------------------*/
 boardEl.addEventListener("click", handleClick)
 resetBtnEl.addEventListener("click", init)
+resetScoreBoardBtn.addEventListener("click", resetScoreboard)
 
 
 
@@ -41,6 +50,7 @@ function init() {
   winner = false
   tie = false
   confettiHappened = false
+  gameInProgress = true
   render()
 }
 
@@ -48,6 +58,7 @@ function render() {
   console.log("render ran")
   updateBoard(board)
   updateMessage()
+  updateScoreBoard()
 }
 
 function updateBoard(arr) {
@@ -65,7 +76,7 @@ function updateBoard(arr) {
 }
 
 function updateMessage() {
-  if (confettiHappened === true){
+  if (confettiHappened === true || gameInProgress === false){
     return
   }
   let playerName = ""
@@ -78,10 +89,15 @@ function updateMessage() {
     messageEl.textContent = `It's ${playerName}'s turn!`
   } else if (winner === false && tie === true){
     messageEl.textContent = `You've tied, try again!`
+    scoreBoard.ties++
+    gameInProgress = false
   } else if (winner === true){messageEl.classList = "animate__animated animate__tada"
     messageEl.textContent = `Congrats player ${playerName}, you won!`
     confetti.start(1000)
     confettiHappened = true
+    if (turn === 1){
+      scoreBoard.xWins++
+    } else scoreBoard.oWins++
   }
 }
 
@@ -169,6 +185,20 @@ function clearBoardClasses() {
   }, 250);
 }
 
+function updateScoreBoard() {
+  xScore.textContent = `X: ${scoreBoard.xWins}`
+  oScore.textContent = `O: ${scoreBoard.oWins}`
+  tiesScore.textContent = `Ties: ${scoreBoard.ties}`
+}
+
+function resetScoreboard () {
+  scoreBoard = {
+    xWins: 0,
+    oWins: 0,
+    ties: 0
+  }
+  init()
+}
 /*------------------------ Minimum Requirements -----------------------------*/
 
 // - Display an empty tic-tac-toe board when the page is initially displayed.
