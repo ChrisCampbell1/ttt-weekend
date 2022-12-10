@@ -55,7 +55,7 @@ button {
 
 button:hover {
   font-weight: bold;
-  /* width: 18vmin; */
+  width: 16vmin;
 }
 
 .blue {
