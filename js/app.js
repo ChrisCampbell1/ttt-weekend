@@ -101,15 +101,6 @@ function updateMessage() {
   }
 }
 
-// function handleClick(evt) {
-//   let sqIdx = evt.target.id.slice(-1)
-//   if(board[sqIdx] !== null){
-//     return
-//   } else if (winner !== null){
-//     return
-//   } else board[sqIdx] = turn
-// }
-
 function handleClick(evt) {
   let sqIdx = evt.target.id.slice(-1)
   console.log("click")
@@ -167,6 +158,9 @@ function checkForWinner(arr) {
     winner = true
   }
 }
+
+/*------------------------ Extra functionality functions -------------------*/
+
 
 function shakeBoard() {
   if (tie === true || winner === true) {
